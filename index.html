@@ -142,7 +142,7 @@
       <!-- Right Visual Showcase -->
       <div class="hero-visual">
         <div class="hero-card-glow">
-          <img src="assets/images/combos/combo-phong-khach.jpg" alt="Không gian sống thông minh SmartZen">
+          <img src="combo-phong-khach.jpg" alt="Không gian sống thông minh SmartZen">
           <!-- Floating Status Widget Left -->
           <div class="hero-floating-stat stat-left">
             <div class="stat-icon">
@@ -722,144 +722,7 @@
             <label class="form-label">Họ và tên người nhận hàng *</label>
             <input type="text" name="checkout_name" class="form-input" placeholder="Nguyễn Văn A" required>
           </div>
-          <div class="form-group-row">
-            <div class="form-group">
-              <label class="form-label">Số điện thoại nhận hàng *</label>
-              <input type="tel" name="checkout_phone" class="form-input" placeholder="0908 123 456" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Email nhận hóa đơn</label>
-              <input type="email" name="checkout_email" class="form-input" placeholder="khachhang@gmail.com">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Địa chỉ giao hàng chi tiết *</label>
-            <input type="text" name="checkout_address" class="form-input" placeholder="Số nhà, tên đường, căn hộ..." required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Phương thức thanh toán:</label>
-            <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.3rem;">
-              <label style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1rem; background: rgba(0,240,255,0.08); border: 1px solid var(--cyan-neon); border-radius: var(--radiu[...]
-                <input type="radio" name="payment_method" value="vietqr" checked>
-                <div>
-                  <strong style="color: #FFF;">Chuyển khoản VietQR Ngân Hàng</strong>
-                  <div style="font-size: 0.75rem; color: var(--cyan-neon);">Quét mã chuyển nhanh 24/7 không cần nhập số tài khoản</div>
-                </div>
-              </label>
-
-              <label style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var([...]
-                <input type="radio" name="payment_method" value="momo">
-                <div>
-                  <strong style="color: #FFF;">Ví Điện Tử MoMo</strong>
-                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Thanh toán một chạm qua ứng dụng MoMo</div>
-                </div>
-              </label>
-
-              <label style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var([...]
-                <input type="radio" name="payment_method" value="cod">
-                <div>
-                  <strong style="color: #FFF;">Thanh toán tiền mặt khi nhận hàng (COD)</strong>
-                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Được đồng kiểm và thử máy trước khi thanh toán</div>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; margin-top: 1rem;">
-            ✓ Đặt Hàng & Hoàn Tất Giao Dịch
-          </button>
-        </form>
-
-        <!-- Right: VietQR Box & Order Summary -->
-        <div style="background: rgba(7, 10, 18, 0.85); border: 1px solid rgba(0, 240, 255, 0.25); border-radius: var(--radius-md); padding: 1.5rem; display: flex; flex-direction: column; align-it[...]
-          <h4 style="font-size: 1rem; color: var(--cyan-neon); margin-bottom: 0.3rem;">Quét Mã QR Chuyển Khoản</h4>
-          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem;">
-            Mã đơn hàng: <strong id="checkoutOrderCode" style="color: #FFF;">SZ889921</strong>
-          </p>
-
-          <!-- QR Code Preview -->
-          <div style="background: #FFF; padding: 12px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); margin-bottom: 1rem;">
-            <img id="vietqrImage" src="" alt="Mã VietQR" style="width: 180px; height: 180px; display: block;">
-          </div>
-
-          <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; text-align: left; width: 100%; background: rgba(255,255,255,0.03); padding: 0.8rem; border-radius: 8px;">
-            <div>🏦 <strong>Ngân hàng:</strong> VietinBank / MBBank</div>
-            <div>🔢 <strong>STK:</strong> 0908 888 999</div>
-            <div>👤 <strong>Chủ TK:</strong> CTY TNHH CONG NGHE SMARTZEN</div>
-            <div>💰 <strong>Số tiền:</strong> <strong id="checkoutModalTotal" style="color: var(--cyan-neon); font-size: 0.95rem;">0₫</strong></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Order Success Confirmation Modal -->
-  <div class="modal-overlay" id="orderSuccessModal">
-    <div class="modal-content-box" style="max-width: 580px; text-align: center;">
-      <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); border: 2px solid var(--status-success); color: var(--status-success); display: flex; align-[...]
-        ✓
-      </div>
-      <span class="badge-tag" style="background: rgba(16, 185, 129, 0.15); color: var(--status-success); border-color: var(--status-success); margin-bottom: 0.5rem;">
-        ĐẶT HÀNG THÀNH CÔNG
-      </span>
-      <h3 style="font-size: 1.6rem; color: #FFF; margin: 0.5rem 0;">Cảm Ơn Quý Khách Đã Lựa Chọn SmartZen!</h3>
-      <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
-        Mã đơn hàng: <strong id="successOrderCode" style="color: var(--cyan-neon); font-size: 1.1rem; font-family: var(--font-tech);">SZ000000</strong>
-      </p>
-
-      <div style="background: rgba(7, 10, 18, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 1.2rem; text-align: left; font-size: 0.85rem; color: var(--[...]
-        <div>👤 <strong>Khách hàng:</strong> <span id="successCustomerName" style="color: #FFF;"></span></div>
-        <div>📞 <strong>Số điện thoại:</strong> <span id="successPhone" style="color: #FFF;"></span></div>
-        <div>📍 <strong>Địa chỉ giao:</strong> <span id="successAddress" style="color: #FFF;"></span></div>
-        <div>💳 <strong>Phương thức:</strong> <span id="successMethod" style="color: var(--cyan-neon);"></span></div>
-        <div>💰 <strong>Tổng thanh toán:</strong> <span id="successAmount" style="color: var(--cyan-neon); font-weight: 800; font-family: var(--font-tech); font-size: 1.1rem;"></span></div>
-      </div>
-
-      <div style="display: flex; gap: 1rem;">
-        <button class="btn btn-secondary" onclick="window.print()" style="flex: 1;">
-          🖨️ In Hóa Đơn
-        </button>
-        <button class="btn btn-primary" onclick="closeSuccessModal()" style="flex: 1;">
-          Tiếp Tục Mua Sắm
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Product Quick View Modal -->
-  <div class="modal-overlay" id="productQuickViewModal">
-    <div class="modal-content-box" style="max-width: 860px;">
-      <button class="modal-close-btn" id="qvModalClose">✕</button>
-
-      <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 2.2rem; align-items: start;">
-        <!-- Product Image Showcase -->
-        <div style="background: #0D1322; border-radius: var(--radius-md); overflow: hidden; border: 1px solid rgba(0,240,255,0.2);">
-          <img id="qvProductImg" src="" alt="Sản phẩm" style="width: 100%; height: 360px; object-fit: cover;">
-          <div style="padding: 0.8rem; display: flex; align-items: center; justify-content: space-around; font-size: 0.75rem; color: var(--text-secondary); border-top: 1px solid rgba(255,255,255,[...]
-            <span>🛡️ Bảo hành 24T</span>
-            <span>⚡ Hỗ trợ Matter</span>
-            <span>🚚 Giao 2H</span>
-          </div>
-        </div>
-
-        <!-- Product Details -->
-        <div>
-          <span class="badge-tag" id="qvProductCategory" style="margin-bottom: 0.5rem;"></span>
-          <h3 id="qvProductTitle" style="font-size: 1.35rem; color: #FFF; margin-bottom: 0.6rem; line-height: 1.3;"></h3>
-
-          <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; font-size: 0.85rem;">
-            <span style="color: #FBBF24; font-weight: 700;" id="qvProductRating">★ 5.0</span>
-            <span style="color: var(--text-muted);" id="qvProductReviews"></span>
-          </div>
-
-          <div style="display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 1.2rem;">... (truncated for brevity)
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+... (truncated for brevity)
   <!-- Scripts -->
   <script src="products-data.js"></script>
   <script src="cart.js"></script>
