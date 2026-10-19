@@ -93,16 +93,21 @@ const DifyChatbot = {
       this.resetConsultation();
     } else if (mode === 'freechat') {
       this.addBotMessage(`
-        Chào bạn! Tôi có thể giải đáp mọi thắc mắc về:
-        <br>• <strong>Báo giá & Khuyến mãi</strong> mới nhất
-        <br>• <strong>Kỹ thuật & Tự lắp đặt</strong> tại nhà
-        <br>• <strong>Đặt lịch kỹ sư khảo sát</strong> miễn phí
-        <br>• <strong>Bảo hành 24 tháng 1 đổi 1</strong>
-        <br>• Hoặc bấm <em>"Gặp tư vấn viên người thật"</em> để được hỗ trợ chuyên sâu!
+        👋 Chào bạn! Tôi là <strong>SmartZen AI Advisor</strong> — hỗ trợ 8 nhóm câu hỏi chính:<br><br>
+        • 🏠 <strong>Giới thiệu SmartZen</strong> — thương hiệu, hệ sinh thái<br>
+        • 📦 <strong>Tìm hiểu sản phẩm</strong> — đèn, robot, khóa, camera, cảm biến...<br>
+        • ⚙️ <strong>Thông số kỹ thuật</strong> — specs, giao thức Matter/Zigbee, AI...<br>
+        • 🛠️ <strong>Hướng dẫn sử dụng</strong> — cài đặt, lắp đặt, kết nối app<br>
+        • 🛡️ <strong>Chính sách bảo hành</strong> — 24T 1đổi1, đổi trả 30 ngày<br>
+        • 💰 <strong>Giá cả & Khuyến mãi</strong> — báo giá, voucher, combo<br>
+        • 😅 <strong>Ngoài phạm vi</strong> — tự nhận biết và từ chối lịch sự<br>
+        • 🧑‍💼 <strong>Gặp tư vấn viên thật</strong> — Human Handoff tức thì<br><br>
+        Hãy gõ câu hỏi hoặc chọn nhanh bên dưới:
       `, [
-        { label: "💰 Báo giá khuyến mãi", action: "ask_pricing" },
-        { label: "🛠️ Kỹ thuật lắp đặt", action: "ask_install" },
-        { label: "📐 Đặt lịch khảo sát", action: "ask_survey" },
+        { label: "👋 SmartZen là gì?", action: "ask_brand_info" },
+        { label: "🏠 Sản phẩm SmartZen", action: "open_catalog" },
+        { label: "💰 Báo giá & Khuyến mãi", action: "ask_pricing" },
+        { label: "🛠️ Hướng dẫn cài đặt", action: "ask_install" },
         { label: "🛡️ Chính sách bảo hành", action: "ask_warranty" },
         { label: "🧑‍💼 Gặp tư vấn viên thật", action: "ask_handoff" }
       ]);
@@ -427,7 +432,11 @@ const DifyChatbot = {
     }
   },
 
-  // 8 Core Intents Handler (Curriculum & Brand Truth Pack Compliant)
+  // ════════════════════════════════════════════════════════════════════════════
+  // 8 Core Intents NLP Engine — SmartZen AI Advisor (Curriculum Compliant)
+  // Intents: chao_hoi | tim_hieu_sp | tinh_nang_kt | huong_dan_sd
+  //          chinh_sach_bh | gia_ca_km | ngoai_pham_vi | chuyen_nguoi_that
+  // ════════════════════════════════════════════════════════════════════════════
   handleUserText(text) {
     if (!text || !text.trim()) return;
     const cleanText = text.trim();
@@ -443,111 +452,197 @@ const DifyChatbot = {
     const lower = cleanText.toLowerCase();
 
     setTimeout(() => {
-      // Intent 1: Tư vấn diện tích & combo
-      if (lower.includes('diện tích') || lower.includes('phòng') || lower.includes('tư vấn') || lower.includes('combo') || lower.includes('gói')) {
+
+      // ═══════════════════════════════════════════════════════════════
+      // INTENT 1 — intent_chao_hoi: Chào hỏi & Giới thiệu tổng quan SmartZen
+      // Keywords: xin chào, hello, hi, SmartZen là gì, bạn là ai, thương hiệu...
+      // ═══════════════════════════════════════════════════════════════
+      if (/xin chào|chào bạn|chào shop|hello|\bhi\b|\bhey\b|kính chào|helo|\bsmartzen\b là gì\?|bạn là ai|bạn tên gì|bot là gì|ai đang chat|giới thiệu về smartzen|về thương hiệu smartzen|thương hiệu smartzen|công ty smartzen|xuất xứ smartzen|ai brand launch/.test(lower) && !/hotline|nhân viên|tư vấn viên|người thật/.test(lower)) {
         this.addBotMessage(`
-          SmartZen cung cấp các gói combo tối ưu hóa theo diện tích và công năng:
-          <br>• <strong>Căn hộ 45 - 80m²:</strong> Combo Căn Hộ Hiện Đại All-in-One (Robot lau giặt sấy X10 + Khóa FaceID + Đèn Ambient).
-          <br>• <strong>Nhà phố / Biệt thự:</strong> Combo Biệt Thự Luxury Zen phủ sóng mạng Matter 3 tầng.
-          <br>• <strong>An ninh 24/7:</strong> Combo An Ninh Tuyệt Đối chống trộm và báo khói độc.
-          <br>Bạn muốn tôi thiết kế cấu hình riêng cho diện tích nào?
+          👋 <strong>Xin chào! Tôi là SmartZen AI Advisor</strong> 🤖<br>
+          Rất vui được gặp bạn! Hãy để tôi giới thiệu về <strong>SmartZen</strong>:<br><br>
+          ✨ <strong>SmartZen</strong> là thương hiệu tiên phong tại Việt Nam trong lĩnh vực <strong>Nhà Thông Minh AIoT</strong> (AI + IoT).<br>
+          • 🌐 Hệ sinh thái chuẩn quốc tế <strong>Matter &amp; Thread</strong>, tương thích 100% Apple HomeKit, Google Home &amp; Alexa.<br>
+          • 🔒 Bảo mật cấp phần cứng với chip mã hóa độc lập <strong>Hardware Security Chip</strong>.<br>
+          • 🛡️ Bảo hành vàng <strong>24 tháng 1 đổi 1</strong> — Khảo sát tận nhà <strong>MIỄN PHÍ</strong>.<br>
+          • ⚡ Thiết bị thế hệ 2026: Robot hút bụi Flagship, Khóa FaceID 3D, Đèn RGBIC Ambient và hơn 30 sản phẩm.<br><br>
+          Bạn cần tôi tư vấn điều gì hôm nay? 😊
         `, [
-          { label: "📐 Thiết kế cấu hình theo diện tích", action: "area_small", data: { text: "Bắt đầu tư vấn", val: "medium" } },
-          { label: "🛍️ Xem tất cả Combo", action: "view_all_combos" }
+          { label: "🏠 Xem sản phẩm SmartZen", action: "open_catalog" },
+          { label: "📐 Tư vấn Combo theo diện tích", action: "restart_consult" },
+          { label: "💰 Xem giá & khuyến mãi", action: "ask_pricing" }
         ]);
-      }
-      // Intent 2: Báo giá & Khuyến mãi
-      else if (lower.includes('giá') || lower.includes('tiền') || lower.includes('khuyến mãi') || lower.includes('voucher') || lower.includes('giảm giá')) {
+
+      // ═══════════════════════════════════════════════════════════════
+      // INTENT 8 — intent_chuyen_nguoi_that: Human Handoff
+      // Keywords: người thật, nhân viên, tư vấn viên, kỹ sư, hotline, gặp người...
+      // (Kiểm tra trước các intent khác để ưu tiên handoff)
+      // ═══════════════════════════════════════════════════════════════
+      } else if (/người thật|nhân viên|tư vấn viên|chuyên viên|kỹ sư|tổng đài|handoff|hotline|gặp người|liên hệ trực tiếp|gọi điện ngay|gọi cho tôi|chat với người|hỗ trợ trực tiếp|tư vấn trực tiếp|muốn gặp người|cần gặp người/.test(lower)) {
         this.addBotMessage(`
-          🔥 <strong>Chương trình ưu đãi tháng 10/2026 của SmartZen:</strong>
-          <br>• Nhập mã <code>SMARTZEN2026</code> giảm ngay <strong>10%</strong> cho toàn bộ đơn hàng.
-          <br>• Tặng gói <strong>Lắp đặt & Cài đặt kịch bản tại nhà</strong> trị giá 1.500.000₫ khi mua Combo.
-          <br>• Giảm thêm <strong>5%</strong> khi thanh toán chuyển khoản qua VietQR.
+          🧑‍💼 <strong>Kết nối Human-in-the-Loop — Handoff sang Chuyên Viên Thật!</strong><br><br>
+          Hệ thống AI đã ghi nhận yêu cầu và đang kết nối bạn với:<br>
+          👤 <strong>Kỹ sư Trưởng SmartZen — Mr. Minh Đức</strong><br>
+          <em>(Chuyên gia Smart Home 8 năm kinh nghiệm)</em><br><br>
+          📞 <strong>Hotline trực tiếp:</strong> <code>1900 8899 (Nhánh 1)</code><br>
+          💬 <strong>Zalo Kỹ thuật:</strong> <code>0908.888.999</code><br>
+          📧 <strong>Email hỗ trợ:</strong> <code>support@smartzen.vn</code><br><br>
+          ⏱️ Thời gian phản hồi trung bình: <strong>dưới 2 phút</strong> trong giờ hành chính.<br>
+          Ngoài giờ, chatbot AI vẫn sẵn sàng giải đáp 24/7.
         `, [
-          { label: "🛒 Mua sắm áp mã giảm giá", action: "open_catalog" },
+          { label: "✍️ Đặt lịch kỹ sư gọi lại cho tôi", action: "ask_survey" },
+          { label: "🤖 Tiếp tục hỏi AI tư vấn", action: "restart_consult" }
+        ]);
+
+      // ═══════════════════════════════════════════════════════════════
+      // INTENT 6 — intent_gia_ca_khuyen_mai: Giá bán & Khuyến mãi
+      // Keywords: giá, tiền, bao nhiêu, khuyến mãi, voucher, giảm giá, sale...
+      // ═══════════════════════════════════════════════════════════════
+      } else if (/\bgiá\b|tiền|chi phí|bao nhiêu tiền|bao nhiêu|khuyến mãi|ưu đãi|voucher|mã giảm|giảm giá|\bsale\b|discount|flash sale|giá bán|giá combo|thanh toán|trả góp|có rẻ không|giá tốt không/.test(lower)) {
+        this.addBotMessage(`
+          🔥 <strong>Bảng giá & Ưu đãi độc quyền tháng 10/2026 của SmartZen:</strong><br><br>
+          <strong>🏷️ Giá sản phẩm nổi bật:</strong><br>
+          • Đèn LED RGBIC Nova Beam (5m): <strong>850.000₫</strong> <del style="color:#888">1.150.000₫</del><br>
+          • Camera AI 360° 4K Eye Guard: <strong>1.490.000₫</strong> <del style="color:#888">1.890.000₫</del><br>
+          • Khóa FaceID 3D Neo Lock Pro: <strong>6.800.000₫</strong> <del style="color:#888">8.500.000₫</del><br>
+          • Robot X10 Ultra (Flagship): <strong>13.990.000₫</strong> <del style="color:#888">16.900.000₫</del><br><br>
+          <strong>🎁 Ưu đãi đang áp dụng:</strong><br>
+          • Nhập mã <code>SMARTZEN2026</code> → Giảm ngay <strong>10%</strong> toàn đơn hàng<br>
+          • Mua Combo → Tặng gói lắp đặt tại nhà trị giá <strong>1.500.000₫</strong><br>
+          • Thanh toán VietQR → Giảm thêm <strong>5%</strong> và xử lý ưu tiên
+        `, [
+          { label: "🛒 Mua ngay & áp mã giảm giá", action: "open_catalog" },
+          { label: "💎 Xem gói Combo tiết kiệm hơn", action: "view_all_combos" },
           { label: "📐 Đặt lịch khảo sát miễn phí", action: "ask_survey" }
         ]);
-      }
-      // Intent 3: Kỹ thuật & Tự lắp đặt (DIY)
-      else if (lower.includes('lắp đặt') || lower.includes('kỹ thuật') || lower.includes('tự làm') || lower.includes('diy') || lower.includes('dây nguội') || lower.includes('sơ đồ')) {
+
+      // ═══════════════════════════════════════════════════════════════
+      // INTENT 5 — intent_chinh_sach_bao_hanh: Bảo hành, đổi trả, hỗ trợ kỹ thuật
+      // Keywords: bảo hành, đổi trả, hỏng, lỗi, sửa chữa, warranty...
+      // ═══════════════════════════════════════════════════════════════
+      } else if (/bảo hành|đổi trả|đổi hàng|trả hàng|hàng hỏng|bị hỏng|thiết bị hỏng|lỗi thiết bị|sửa chữa|bảo dưỡng|bảo trì|không hoạt động được|trục trặc|lỗi kỹ thuật|quy trình bảo hành|chính sách đổi trả|hư hỏng|thời gian bảo hành/.test(lower)) {
         this.addBotMessage(`
-          🛠️ <strong>Kỹ thuật lắp đặt thiết bị SmartZen:</strong>
-          <br>• <strong>Không cần đục phá tường:</strong> Công tắc SmartZen lắp vừa khít chuẩn đế âm chữ nhật tại Việt Nam (hỗ trợ cả line L không dây N).
-          <br>• <strong>Rèm & Khóa cửa:</strong> Sử dụng pin sạc dung lượng cao 5000mAh hoạt động 8 - 10 tháng.
-          <br>• <strong>Kết nối 30 giây:</strong> Quét mã Matter QR Code trên app SmartZen là thiết bị tự động nhận diện.
-          <br>Kỹ sư của chúng tôi luôn sẵn sàng hỗ trợ bạn qua video call hoặc đến tận nhà!
+          🛡️ <strong>Chính sách Bảo hành Vàng SmartZen — Cam kết hàng đầu ngành:</strong><br><br>
+          <strong>⏰ Thời hạn bảo hành:</strong><br>
+          • <strong>24 tháng 1 đổi 1</strong> chính hãng — Mọi lỗi phần cứng, đổi thiết bị mới tức thì.<br>
+          • <strong>30 ngày đổi trả</strong> không cần lý do — Hoàn tiền 100% nếu không hài lòng.<br><br>
+          <strong>🔧 Quy trình xử lý lỗi kỹ thuật (3 bước):</strong><br>
+          1️⃣ Báo lỗi qua app SmartZen hoặc hotline <code>1900 8899</code><br>
+          2️⃣ Kỹ thuật viên remote hỗ trợ trong <strong>30 phút</strong> — Sửa online ngay<br>
+          3️⃣ Đến tận nơi thay thế trong <strong>2-4 giờ</strong> (nội thành HN &amp; HCM)<br><br>
+          📍 <strong>Trung tâm bảo hành chính hãng:</strong> Hà Nội • TP.HCM • Đà Nẵng
         `, [
-          { label: "📺 Xem video mô phỏng lắp đặt", action: "show_video_sim" },
-          { label: "📐 Đặt lịch kỹ sư đến tận nhà", action: "ask_survey" }
+          { label: "🧑‍💼 Báo lỗi & Liên hệ bảo hành", action: "ask_handoff" },
+          { label: "✍️ Đặt lịch kỹ thuật viên đến sửa", action: "ask_survey" }
         ]);
-      }
-      // Intent 4: Đặt lịch khảo sát tận nhà
-      else if (lower.includes('khảo sát') || lower.includes('lịch hẹn') || lower.includes('tận nhà') || lower.includes('đo đạc')) {
+
+      // ═══════════════════════════════════════════════════════════════
+      // INTENT 4 — intent_huong_dan_su_dung: Hướng dẫn cài đặt, kết nối, vận hành
+      // Keywords: hướng dẫn, cài đặt, lắp đặt, kết nối, sử dụng, vận hành...
+      // ═══════════════════════════════════════════════════════════════
+      } else if (/hướng dẫn|cài đặt|lắp đặt|kết nối|cách sử dụng|cách dùng|cách cài|cách kết nối|vận hành|tự lắp|tự cài|\bdiy\b|sơ đồ đấu nối|dây nguội|đấu nối|ghép nối thiết bị|tải app|quét mã|matter qr|lắp như thế nào|cài như thế nào|dùng như thế nào|hướng dẫn sử dụng/.test(lower)) {
         this.addBotMessage(`
-          SmartZen cung cấp dịch vụ <strong>Khảo sát & Lập sơ đồ 3D tại nhà hoàn toàn MIỄN PHÍ 100%</strong>:
-          <br>• Kỹ sư có mặt sau 2 giờ hoặc theo đúng khung giờ bạn chọn.
-          <br>• Đo đạc thực tế, đo kiểm sóng WiFi/Zigbee và vẽ sơ đồ vị trí công tắc, đèn, cảm biến.
-          <br>• Báo giá chi tiết không phát sinh bất kỳ phụ phí nào.
+          🛠️ <strong>Hướng dẫn cài đặt & vận hành thiết bị SmartZen:</strong><br><br>
+          <strong>📱 Kết nối thiết bị trong 30 giây (4 bước đơn giản):</strong><br>
+          1️⃣ Tải app <strong>SmartZen</strong> miễn phí trên App Store / CH Play<br>
+          2️⃣ Cắm nguồn thiết bị → Đèn LED nhấp nháy = Chế độ ghép đôi<br>
+          3️⃣ Mở app → "Thêm thiết bị" → Quét <strong>Matter QR Code</strong> in trên hộp<br>
+          4️⃣ Thiết bị tự nhận diện, gom vào phòng &amp; tạo kịch bản tự động!<br><br>
+          <strong>⚡ Lưu ý lắp đặt từng loại thiết bị:</strong><br>
+          • <strong>Công tắc:</strong> Khớp chuẩn đế âm VN — hỗ trợ cả không có dây nguội N<br>
+          • <strong>Khóa cửa:</strong> Pin sạc 5.000mAh dùng 8-10 tháng, không cần kéo dây điện<br>
+          • <strong>Cảm biến radar:</strong> Đế nam châm 3M — Lắp góc trần, không cần khoan<br>
+          • <strong>Rèm tự động:</strong> Clip nhanh vào ray nhôm hiện có chỉ trong 10 phút
         `, [
-          { label: "✍️ Điền form đặt lịch ngay", action: "go_to_survey_form" }
+          { label: "📺 Xem video mô phỏng lắp đặt 3D", action: "show_video_sim" },
+          { label: "📐 Đặt kỹ sư đến lắp tận nhà", action: "ask_survey" },
+          { label: "🧑‍💼 Hỏi kỹ thuật viên trực tiếp", action: "ask_handoff" }
         ]);
-      }
-      // Intent 5: Chính sách bảo hành & đổi trả
-      else if (lower.includes('bảo hành') || lower.includes('đổi trả') || lower.includes('hỏng') || lower.includes('sửa chữa')) {
+
+      // ═══════════════════════════════════════════════════════════════
+      // INTENT 3 — intent_tinh_nang_ky_thuat: Thông số kỹ thuật, cách hoạt động
+      // Keywords: thông số, kỹ thuật, spec, tính năng, công nghệ, Matter, Zigbee...
+      // ═══════════════════════════════════════════════════════════════
+      } else if (/thông số|thông số kỹ thuật|\bspec\b|tính năng|công nghệ|hoạt động thế nào|cách hoạt động|\bmatter\b|\bzigbee\b|homekit|apple home|google home|\balexa\b|\bsiri\b|\bthread\b|bluetooth mesh|lực hút|\bcadr\b|\bhepa\b|độ phân giải|\b4k\b|\blidar\b|mmwave|radar 24ghz|faceid|\bfpc\b|\brgbic\b|\brgb\b|chip npu|ip67|lumen|kelvin|watt|pa hút/.test(lower)) {
         this.addBotMessage(`
-          🛡️ <strong>Chính sách bảo hành vàng của SmartZen:</strong>
-          <br>• <strong>Bảo hành 24 tháng 1 ĐỔI 1</strong> chính hãng cho mọi lỗi phần cứng.
-          <br>• Đổi trả miễn phí trong <strong>30 ngày đầu</strong> nếu không hài lòng về trải nghiệm.
-          <br>• Đội ngũ kỹ thuật hỗ trợ tận nơi trong nội thành Hà Nội & TP.HCM.
+          ⚙️ <strong>Thông số kỹ thuật & Cách hoạt động của thiết bị SmartZen 2026:</strong><br><br>
+          <strong>🌐 Giao thức kết nối thế hệ mới:</strong><br>
+          • <strong>Matter over Thread:</strong> Chuẩn IoT toàn cầu — Hoạt động Offline 100% khi mất mạng<br>
+          • <strong>Zigbee 3.0:</strong> Mesh Network tự relay — Phủ sóng toàn nhà nhiều tầng<br>
+          • <strong>BLE Mesh 5.2:</strong> Kết nối trực tiếp không cần Hub cho thiết bị gần<br><br>
+          <strong>🤖 Thông số AI nổi bật của từng dòng:</strong><br>
+          • 🔒 <strong>Khóa FaceID 3D Neo Lock:</strong> Nhận diện 0.3s, tỷ lệ sai &lt;0.0001%, chống ảnh/video giả<br>
+          • 🤖 <strong>Robot X10 Ultra:</strong> 8.500 Pa, LiDAR 3D tránh 108 vật cản, tự giặt sấy 60°C<br>
+          • 📷 <strong>Camera AI 4K Eye Guard:</strong> NPU phân biệt người/thú cưng, đêm màu Full-Color 15m<br>
+          • 📡 <strong>Cảm biến mmWave 24GHz:</strong> Nhận diện nhịp thở từ 7m, phòng tắt đèn nhầm 0%<br>
+          • 💡 <strong>Đèn RGBIC Nova Beam:</strong> 16 triệu màu độc lập từng đoạn, CRI Ra98<br><br>
+          Bạn muốn xem thông số chi tiết sản phẩm nào cụ thể?
         `, [
-          { label: "🧑‍💼 Liên hệ bảo hành", action: "ask_handoff" },
-          { label: "🛍️ Khám phá sản phẩm", action: "open_catalog" }
+          { label: "🛍️ Xem chi tiết tất cả sản phẩm", action: "open_catalog" },
+          { label: "⚡ Xem Hub Matter trung tâm", action: "view_hub_product" },
+          { label: "🧑‍💼 Hỏi kỹ sư kỹ thuật viên", action: "ask_handoff" }
         ]);
-      }
-      // Intent 6: Human Handoff (Chuyển chuyên viên người thật)
-      else if (lower.includes('người thật') || lower.includes('nhân viên') || lower.includes('tổng đài') || lower.includes('gặp') || lower.includes('handoff') || lower.includes('hotline')) {
+
+      // ═══════════════════════════════════════════════════════════════
+      // INTENT 2 — intent_tim_hieu_san_pham: Hỏi về các dòng sản phẩm, giải pháp
+      // Keywords: sản phẩm, thiết bị, combo, đèn, robot, khóa, camera, cảm biến...
+      // ═══════════════════════════════════════════════════════════════
+      } else if (/sản phẩm|thiết bị|giải pháp|dòng sản phẩm|danh mục|\bcombo\b|gói sản phẩm|có những gì|smartzen bán gì|đèn thông minh|robot hút|khóa cửa|\bcamera\b|cảm biến|rèm tự động|công tắc|hub trung tâm|tìm hiểu sản phẩm|xem sản phẩm|muốn mua gì|nên mua|tư vấn mua|cho diện tích|cho phòng|căn hộ|biệt thự|nhà phố|\bsmarthome\b|nhà thông minh/.test(lower)) {
         this.addBotMessage(`
-          🧑‍💼 <strong>Cơ chế Human-in-the-Loop Handoff:</strong>
-          <br>Hệ thống đang kết nối bạn với <strong>Kỹ sư Trưởng SmartZen (Mr. Minh Đức)</strong>.
-          <br><br>📞 Hotline trực tiếp: <strong>1900 8899 (Nhánh 1)</strong>
-          <br>💬 Zalo Kỹ thuật: <strong>0908.888.999</strong>
-          <br>Kỹ thuật viên sẽ phản hồi bạn trong vòng dưới 2 phút!
+          🏠 <strong>Danh mục sản phẩm SmartZen — Hệ sinh thái Nhà Thông Minh toàn diện:</strong><br><br>
+          <strong>💡 Đèn Thông Minh:</strong><br>
+          • Dải LED RGBIC Ambient <em>Nova Beam</em> — 16 triệu màu độc lập, đồng bộ nhịp âm nhạc<br>
+          • Đèn trần <em>Aura Ceiling Pro</em> 50W — Ra98, đổi nhiệt màu 2700K–6500K<br><br>
+          <strong>🔒 Bảo mật & An ninh:</strong><br>
+          • Khóa FaceID 3D <em>Neo Lock Pro</em> — 7 phương thức mở khóa<br>
+          • Camera AI 360° 4K <em>Eye Guard</em> — NPU nhận diện khuôn mặt người thân<br>
+          • Cảm biến mmWave 24GHz <em>Sentinel Radar</em><br>
+          • Cảm biến khói &amp; rò khí gas <em>SafeGuard</em><br><br>
+          <strong>🤖 Robot Tự Động:</strong><br>
+          • <em>X10 Ultra</em> — 8.500Pa, tự giặt sấy giẻ, trạm Omni 7-in-1<br>
+          • <em>Slim S5</em> — Siêu mỏng 6.8cm, len lỏi mọi gầm sofa<br><br>
+          <strong>⚡ Tự Động Hóa:</strong><br>
+          • Công tắc kính cường lực cảm ứng Haptic<br>
+          • Động cơ rèm <em>SilentCurtain Pro</em> — Siêu êm 20dB, chịu tải 60kg<br>
+          • Hub <em>Matter Core Ultra</em> — Kết nối đến 128 thiết bị đồng thời
         `, [
-          { label: "📐 Hoặc Đặt lịch hẹn kỹ sư gọi lại", action: "ask_survey" }
+          { label: "📐 AI tư vấn Combo theo diện tích", action: "restart_consult" },
+          { label: "🛍️ Xem toàn bộ sản phẩm", action: "open_catalog" },
+          { label: "💎 Xem các gói Combo tiết kiệm", action: "view_all_combos" }
         ]);
-      }
-      // Intent 7: Thương hiệu & Xuất xứ
-      else if (lower.includes('thương hiệu') || lower.includes('smartzen') || lower.includes('xuất xứ') || lower.includes('công ty') || lower.includes('ai brand launch')) {
+
+      // ═══════════════════════════════════════════════════════════════
+      // INTENT 7 — intent_ngoai_pham_vi: Câu hỏi ngoài phạm vi SmartZen
+      // Keywords: thời tiết, giải trí, tài chính, y tế, chính trị...
+      // ═══════════════════════════════════════════════════════════════
+      } else if (/thời tiết|dự báo thời tiết|nhiệt độ ngoài|trời có mưa|trời nắng không|hôm nay thời tiết|bóng đá|\bphim\b|\bnhạc\b|giải trí|tin tức|\bchính trị\b|bầu cử|\bcovid\b|sức khỏe|bệnh viện|\bthuốc\b|công thức nấu|cách nấu|lịch sử thế giới|địa lý|\btoán\b|vật lý|hóa học|bài học|kỳ thi|\bbitcoin\b|\bcrypto\b|chứng khoán|cổ phiếu|đầu tư tài chính|vay tiền|ngân hàng|\bvisa\b|du lịch nước ngoài|đặt vé máy bay|bảo hiểm nhân thọ/.test(lower)) {
         this.addBotMessage(`
-          ✨ <strong>Về thương hiệu SmartZen:</strong>
-          <br>SmartZen là thương hiệu tiên phong trong giải pháp Nhà Thông Minh ứng dụng Trí Tuệ Nhân Tạo (AIoT).
-          <br>• Hệ sinh thái chuẩn quốc tế Matter, tương thích 100% Apple HomeKit, Google Home & Alexa.
-          <br>• Bảo mật cấp độ phần cứng với chip mã hóa độc lập Hardware Security Chip.
+          😅 <strong>Câu hỏi này nằm ngoài phạm vi chuyên môn của tôi!</strong><br><br>
+          Tôi là <strong>SmartZen AI Advisor</strong> — được đào tạo chuyên sâu về:<br>
+          <em>🏠 Nhà Thông Minh · 📱 AIoT · ⚙️ Sản phẩm SmartZen</em><br><br>
+          Các chủ đề ngoài phạm vi bao gồm: thời tiết, giải trí, y tế, tài chính, chính trị, du lịch... — Tôi chưa được huấn luyện để trả lời các câu hỏi này.<br><br>
+          💡 <strong>Tôi có thể giúp bạn ngay bây giờ về:</strong>
         `, [
-          { label: "🏠 Xem các giải pháp nổi bật", action: "open_catalog" }
+          { label: "🏠 Hỏi về sản phẩm SmartZen", action: "open_catalog" },
+          { label: "💰 Hỏi về giá & khuyến mãi", action: "ask_pricing" },
+          { label: "🛡️ Hỏi về chính sách bảo hành", action: "ask_warranty" },
+          { label: "🧑‍💼 Gặp tư vấn viên người thật", action: "ask_handoff" }
         ]);
-      }
-      // Intent 8: Tương thích Matter / Apple HomeKit / Google Home / Zigbee
-      else if (lower.includes('matter') || lower.includes('homekit') || lower.includes('apple') || lower.includes('google') || lower.includes('alexa') || lower.includes('zigbee')) {
+
+      // ═══════════════════════════════════════════════════════════════
+      // DEFAULT FALLBACK — Câu hỏi không khớp với intent nào
+      // ═══════════════════════════════════════════════════════════════
+      } else {
         this.addBotMessage(`
-          🌐 <strong>Chuẩn tương thích SmartZen:</strong>
-          <br>Tất cả thiết bị SmartZen thế hệ 2026 đều hỗ trợ giao thức kết nối mở <strong>Matter over Thread</strong> và <strong>Zigbee 3.0</strong>.
-          <br>• Tự động đồng bộ vào ứng dụng <em>Apple Home (Nhà)</em> trên iPhone/iPad/Apple Watch.
-          <br>• Ra lệnh giọng nói mượt mà với <em>Siri, Google Assistant và Alexa</em> bằng tiếng Việt và tiếng Anh.
+          🤔 Tôi đã tiếp nhận câu hỏi: <em>"${cleanText}"</em>.<br><br>
+          Để hỗ trợ bạn chính xác hơn, hãy chọn chủ đề phù hợp — hoặc gặp trực tiếp kỹ sư SmartZen:
         `, [
-          { label: "⚡ Xem Hub Matter trung tâm", action: "view_hub_product" }
-        ]);
-      }
-      // Default fallback
-      else {
-        this.addBotMessage(`
-          Tôi đã tiếp nhận câu hỏi của bạn về: <em>"${cleanText}"</em>.
-          <br>Để phục vụ bạn chính xác nhất, bạn có thể chọn các chủ đề sau hoặc bấm gặp trực tiếp kỹ sư SmartZen:
-        `, [
-          { label: "📐 Tư vấn combo theo diện tích", action: "area_small", data: { text: "Tư vấn lại", val: "medium" } },
-          { label: "💰 Báo giá khuyến mãi", action: "ask_pricing" },
-          { label: "🛠️ Hướng dẫn lắp đặt", action: "ask_install" },
-          { label: "🧑‍💼 Gặp tư vấn viên thật", action: "ask_handoff" }
+          { label: "👋 SmartZen là gì? Giới thiệu thương hiệu", action: "ask_brand_info" },
+          { label: "🏠 Xem sản phẩm & giải pháp", action: "open_catalog" },
+          { label: "💰 Giá cả & Khuyến mãi", action: "ask_pricing" },
+          { label: "🛠️ Hướng dẫn cài đặt & sử dụng", action: "ask_install" },
+          { label: "🛡️ Chính sách bảo hành & đổi trả", action: "ask_warranty" },
+          { label: "🧑‍💼 Gặp tư vấn viên người thật", action: "ask_handoff" }
         ]);
       }
     }, 450);
@@ -670,6 +765,16 @@ const DifyChatbot = {
           Catalog.openQuickView('sz-core-hub');
         } else if (action === 'show_video_sim') {
           this.jumpVideoStep(1);
+        } else if (action === 'ask_pricing') {
+          this.handleUserText('Giá sản phẩm và khuyến mãi hiện tại');
+        } else if (action === 'ask_install') {
+          this.handleUserText('Hướng dẫn cài đặt và sử dụng thiết bị');
+        } else if (action === 'ask_warranty') {
+          this.handleUserText('Chính sách bảo hành và đổi trả');
+        } else if (action === 'ask_handoff') {
+          this.handleUserText('Tôi muốn gặp tư vấn viên người thật');
+        } else if (action === 'ask_brand' || action === 'ask_brand_info') {
+          this.handleUserText('Xin chào, giới thiệu về SmartZen cho tôi');
         } else {
           this.handleOptionClick(action, chipData);
         }
